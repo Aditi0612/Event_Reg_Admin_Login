@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 import "./LogReg.css";
 import "./tagsinput.css";
-import "./validate";
 
-const Admin_login = () => {
+function Captcha() {
+  const [verified, setVerified] = useState(false);
   const [user, setUser] = useState({
     username: "",
   });
@@ -19,12 +18,14 @@ const Admin_login = () => {
     return result;
   }
   const captcha = generateString(6); // Function called here and save in captcha variable
+
   let handleChange = (e) => {
     let name = e.target.name;
     let value = e.target.value;
     user[name] = value;
     setUser(user);
   };
+
   const onSubmit = (e) => {
     var element = document.getElementById("succesBTN");
     var inputData = document.getElementById("inputType");
@@ -37,6 +38,7 @@ const Admin_login = () => {
         element.style.backgroundColor = "green";
         element.innerHTML = "Captcha Verified";
         element.disabled = true;
+        setVerified(true);
         element.style.cursor = "not-allowed";
         inputData.style.display = "none";
       } else {
@@ -51,7 +53,7 @@ const Admin_login = () => {
           element.innerHTML = "Verify Captcha";
           element.disabled = false;
           inputData.disabled = false;
-          inputData.value = "sssss";
+          inputData.value = "******";
         };
         setTimeout(myFunction, 5000);
       }
@@ -73,6 +75,7 @@ const Admin_login = () => {
                   <h3 className="mb-4 pb-2 pb-md-0 mb-md-5" align="center">
                     Admin Login
                   </h3>
+
                   <form>
                     <div className="row">
                       <label className="form-label" for="emailAddress">
@@ -95,6 +98,7 @@ const Admin_login = () => {
                         </div>
                       </div>
                     </div>
+
                     <div className="row">
                       <label className="form-label" for="password">
                         Password
@@ -116,25 +120,21 @@ const Admin_login = () => {
                         </div>
                       </div>
                     </div>
+
                     <div className="row">
                       <div className="col-md-6 mb-4 pb-2">
-                        <label className="form-label" for="password">
+                        <label className="form-label" for="emailAddress">
                           Captcha
                           <font color="red">*</font>
                         </label>
+
                         <div className="form-outline">
                           <input
-                            type="text"
-                            id="capt"
+                            id="captcha"
                             className="form-control"
-                            // value={userRegistration.pass}
-                            // onChange={handleInput}
-                            name="capt"
                             readOnly
+                            value={captcha}
                           />
-                          {/* {errors.pass && (
-                            <p className="error">{errors.pass}</p>
-                          )} */}
                         </div>
                       </div>
 
@@ -148,49 +148,47 @@ const Admin_login = () => {
                             type="text"
                             id="inputType"
                             className="form-control"
+                            placeholder="Enter Captcha"
+                            name="username"
                             onChange={handleChange}
-                            name="captv"
+                            autocomplete="off"
                           />
-                          {/* {errors.cpass && (
-                            <p className="error">{errors.cpass}</p>
-                          )} */}
                         </div>
                       </div>
                     </div>
-                    {/* <h6>
-                      Captcha not visible{" "}
-                      <img src={"reload.png"} width="40px" onclick={cap} />
-                    </h6> */}
-                    {/* <ReCAPTCHA
-                      sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-                      onChange={onChange}
-                    /> */}
+
+                    <div className="row">
+                      <div className="col-md-5 mb-4 pb-2" align="center">
+                        <div className="form-outline">
+                          <button
+                            type="button"
+                            id="succesBTN"
+                            onClick={onSubmit}
+                            class="btn btn-primary my-10"
+                          >
+                            Verify Captcha
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="col-md-7 mb-4 pb-2" align="center">
+                        <div className="form-outline">
+                          <a
+                            class="btn btn-primary"
+                            href="#"
+                            role="button"
+                            className="btn btn-primary my-10"
+                            disabled={verified}
+                          >
+                            Submit
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+
                     <div className="text-center fs-6 mt-3">
                       {" "}
                       <a href="#">Forgot Password?</a>
-                    </div>
-
-                    <div className="mt-4 pt-2" align="center">
-                      <input
-                        className="btn btn-primary"
-                        // disabled={!verified}
-
-                        type="submit"
-                        id="succesBTN"
-                        name="login"
-                        onClick={onSubmit}
-                      />
-                    </div>
-
-                    <div className="mt-4 pt-2 ml-2" align="center">
-                      <a
-                        class="btn btn-primary"
-                        href="#"
-                        role="button"
-                        // onClick={handleSubmit}
-                      >
-                        Submit
-                      </a>{" "}
                     </div>
                   </form>
                 </div>
@@ -201,5 +199,5 @@ const Admin_login = () => {
       </section>
     </>
   );
-};
-export default Admin_login;
+}
+export default Captcha;
